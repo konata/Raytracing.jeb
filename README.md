@@ -1,8 +1,8 @@
 # Retracing.jeb
 
-## the ultimate deobfuscation plugin for jeb
+## The ultimate deobfuscation plugin for jeb
 
-### how to use
+### How to use
 
 1. link `jeb.jar` from `$JEB_HOME/bin/app` to `libs` directory in project
 2. run `./gradlew fatJar`
@@ -11,5 +11,9 @@
 5. run `File` -> `Plugins` -> `Execute an Engine Plugin` -> `Retracing`, fill designated mapping file and click ok
 6. have fun
 
+### Caveats
+
+all functions are tested against Jeb 3.19.1 with a Pro license,
+as https://www.pnfsoftware.com/jeb/manual/dev/introducing-jeb-extensions/ per Non-Pro License type can not use plugins
 
 

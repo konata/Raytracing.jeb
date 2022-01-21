@@ -4,19 +4,12 @@ import com.pnfsoftware.jeb.core.*
 import com.pnfsoftware.jeb.core.units.code.android.IDexUnit
 import com.pnfsoftware.jeb.util.logging.GlobalLog
 import proguard.retrace.FrameInfo
-import proguard.retrace.FrameRemapper
 import java.io.File
 import kotlin.system.measureTimeMillis
 
 data class Rebasing(val from: String, val to: String, val id: Long)
 
 class RaytracingPlugin : AbstractEnginesPlugin() {
-    init {
-        FrameRemapper()
-        println("classpath:${System.getenv("foobar") ?: ""}")
-    }
-
-
     companion object {
         private val logger = GlobalLog.getLogger(RaytracingPlugin::class.java)
 

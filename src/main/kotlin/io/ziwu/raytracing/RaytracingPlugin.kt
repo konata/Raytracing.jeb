@@ -11,10 +11,7 @@ data class Rebasing(val from: String, val to: String, val id: Long)
 
 class RaytracingPlugin : AbstractEnginesPlugin() {
     companion object {
-        private val logger = GlobalLog.getLogger(RaytracingPlugin::class.java).also {
-            it.info(" *** Raytracing *** ")
-        }
-
+        private val logger = GlobalLog.getLogger(RaytracingPlugin::class.java)
         fun fromQualified(name: String): Pair<String?, String>? {
             if (name.isBlank()) return null
             logger.info("from qualified: $name")
@@ -114,8 +111,6 @@ class RaytracingPlugin : AbstractEnginesPlugin() {
                                 logger.info("rename member $from => $to in ${clazz.from}->${clazz.to}")
                                 Renamer.rename(dex, to, id)
                             }
-                            // TODO() judge package name and create package & move class
-                            // TODO() createPackage & removePackage did receive dot-style namings?
                         }
 
                         logger.error("******  begin package process ******")

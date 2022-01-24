@@ -11,13 +11,16 @@ data class Rebasing(val from: String, val to: String, val id: Long)
 
 class RaytracingPlugin : AbstractEnginesPlugin() {
     companion object {
-        private val logger = GlobalLog.getLogger(RaytracingPlugin::class.java)
+        private val logger = GlobalLog.getLogger(RaytracingPlugin::class.java).also {
+            it.info(" *** Raytracing *** ")
+        }
 
         fun fromQualified(name: String): Pair<String?, String>? {
             if (name.isBlank()) return null
-            val (packageName, clazzName) = name.split("""\.(?!.*?\.)""".toRegex())
-            return packageName.takeIf { clazzName.isNotBlank() } to (clazzName.takeIf { it.isNotBlank() }
-                ?: packageName)
+            logger.info("from qualified: $name")
+            val components = name.split("""\.(?!.*?\.)""".toRegex())
+            val (clazzName, packageName) = (listOf(null) + components).reversed().take(2)
+            return packageName to (clazzName ?: "")
         }
 
         fun fromShorty(shortyRepr: String): String {
@@ -57,7 +60,7 @@ class RaytracingPlugin : AbstractEnginesPlugin() {
     override fun execute(context: IEnginesContext?) = execute(context, null)
     override fun execute(context: IEnginesContext?, option: MutableMap<String, String>?) = kotlin.runCatching {
         measureTimeMillis {
-            option?.get("mapping")?.takeIf { File(it).exists() }?.let {
+            option?.get("mapping")?.trim()?.takeIf { File(it).exists() }?.let {
                 val mapper = Retracer.feed(File(it))
                 context?.getProject(0)?.let { prj ->
                     val codes = RuntimeProjectUtil.findUnitsByType(prj, IDexUnit::class.java, false)
@@ -144,9 +147,11 @@ class RaytracingPlugin : AbstractEnginesPlugin() {
                         }
                     }
                 }
-            }
+            } ?: logger.error("mapping file not found !!!")
         }
     }.onFailure { error ->
+        logger.catching(error, "Whooo")
+        logger.error("[E]: Raytracing Cause: ${error.cause}")
         logger.error("[E]: Raytracing ${error.stackTrace.joinToString("\n") { it.toString() }}")
     }.onSuccess { elapsed ->
         logger.info("Raytracing success: take time -> $elapsed ms")

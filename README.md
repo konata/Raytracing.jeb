@@ -4,6 +4,13 @@
 
 ## How to install
 
+
+
+### Install Precompiled (Recommended)
+
+1. download jar from [outputs](./outputs/Raytracing-0.3.14.jar) and place into `$JEB_HOME/coreplugins`
+2. restart Jeb
+
 ### Build From Source
 
 1. link `jeb.jar` from `$JEB_HOME/bin/app` to `libs` directory in project
@@ -11,10 +18,6 @@
 3. copy build jar `RayTracing-${version}.jar` to `$JEB_HOME/coreplugins`
 4. restart Jeb
 
-### Install Precompiled
-
-1. download jar from [outputs](./outputs/Raytracing-0.3.14.jar) and place into `$JEB_HOME/coreplugins`
-2. restart Jeb
 
 ## How to use
 
